@@ -232,9 +232,11 @@ body.dark #icon-moon{display:block}
 .form-field input::placeholder,.form-field textarea::placeholder{color:var(--muted);opacity:0.7}
 
 .form-status {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
   margin-bottom: 1.5rem;
   padding: 0.5rem 0;
+  max-width: 450px;
   display: none;
 }
 .form-status.success {
