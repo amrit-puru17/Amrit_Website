@@ -9,6 +9,7 @@
   --font:     'EB Garamond', Georgia, serif;
   --nav-h:    64px;
   --radius:   2px;
+  --font-cursive: 'Pinyon Script', cursive;
   --ease:     cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -41,7 +42,7 @@ address{font-style:normal}
 #site-header{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:var(--bg);border-bottom:1px solid var(--border-thin);transition:box-shadow 0.25s}
 #site-header.scrolled{box-shadow:0 1px 6px rgba(0,0,0,0.03)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:100%;max-width:1200px;margin:0 auto;padding:0 2rem}
-.nav-logo{font-size:1.25rem;font-weight:600;color:var(--accent);letter-spacing:-0.02em}
+.nav-logo{font-family:var(--font-cursive);font-size:1.8rem;font-weight:400;color:var(--accent);letter-spacing:0}
 .nav-links{display:flex;gap:2rem;font-size:0.9rem;font-weight:500}
 .nav-link{color:var(--muted);transition:color 0.2s}
 .nav-link:hover{color:var(--text)}
@@ -253,7 +254,7 @@ body.dark .form-status.error { color: #e57373; }
 /* ── Footer ── */
 .site-footer{border-top:1px solid var(--border-thin);padding:2rem 0}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-size:1rem;font-weight:600;color:var(--accent)}
+.footer-logo{font-family:'Pinyon Script',cursive;font-size:1.5rem;font-weight:400;color:var(--accent)}
 .footer-copy{font-size:0.8rem;color:var(--muted)}
 .footer-links{display:flex;gap:1.5rem;font-size:0.85rem}
 .footer-links a{color:var(--muted)}
