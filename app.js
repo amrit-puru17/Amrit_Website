@@ -80,7 +80,27 @@
       e.preventDefault();
       
       const formData = new FormData(contactForm);
+      const name = formData.get('name');
+      const email = formData.get('email');
+      const message = formData.get('message');
       const btnText = submitBtn.querySelector('span');
+      
+      // Client-side validation
+      if (!name || name.trim().length < 2) {
+        formStatus.textContent = 'Please provide a valid name.';
+        formStatus.className = 'form-status error';
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        formStatus.textContent = 'Please provide a valid email address.';
+        formStatus.className = 'form-status error';
+        return;
+      }
+      if (!message || message.trim().length < 5) {
+        formStatus.textContent = 'Please write a brief message so I can help you better.';
+        formStatus.className = 'form-status error';
+        return;
+      }
       
       // Set loading state
       submitBtn.disabled = true;
