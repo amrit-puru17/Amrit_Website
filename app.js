@@ -116,7 +116,7 @@
         });
 
         if (response.ok) {
-          formStatus.textContent = 'Thank you so much for reaching out 💛 Your message just made its way to me, and I truly appreciate you taking the time to connect. I’ll get back to you as soon as I can ✨';
+          formStatus.textContent = 'Thank you for reaching out 💛 Your message means a lot — I’ll get back to you soon ✨';
           formStatus.classList.add('success');
           contactForm.reset();
         } else {
