@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purushottam Acharya — Data Analyst</title>
+  <meta name="description" content="Portfolio of Purushottam Acharya — Data Analyst specialising in Excel, SQL, Power BI, Python and business intelligence." />
+  <meta name="theme-color" content="#fafaf8" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ════════════════ HEADER ════════════════ -->
+  <header id="site-header" role="banner">
+    <nav class="nav-inner" aria-label="Primary">
+      <a href="#hero" class="nav-logo" aria-label="Home">PA</a>
+      <ul class="nav-links" role="list">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="theme-btn" class="icon-btn" aria-label="Toggle colour scheme">
+          <i class="ph ph-sun" id="icon-sun"></i>
+          <i class="ph ph-moon" id="icon-moon"></i>
+        </button>
+        <a href="Purushottam_Acharya_Resume_.pdf" download class="btn btn-text" aria-label="Download resume PDF">Resume <i class="ph ph-arrow-square-out"></i></a>
+        <button id="menu-btn" class="icon-btn hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-menu" role="dialog" aria-label="Mobile navigation" aria-modal="true" hidden>
+    <button id="menu-close" class="icon-btn close-btn" aria-label="Close menu"><i class="ph ph-x"></i></button>
+    <nav aria-label="Mobile links">
+      <ul role="list">
+        <li><a href="#about" class="drawer-link">About</a></li>
+        <li><a href="#experience" class="drawer-link">Experience</a></li>
+        <li><a href="#projects" class="drawer-link">Projects</a></li>
+        <li><a href="#contact" class="drawer-link">Contact</a></li>
+      </ul>
+    </nav>
+    <a href="Purushottam_Acharya_Resume_.pdf" download class="btn btn-text drawer-cta">Download Resume</a>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section id="hero" class="hero-section" aria-labelledby="hero-heading">
+      <div class="container hero-container">
+        <p class="availability-badge" role="status">Available for hire</p>
+        <h1 id="hero-heading" class="hero-heading reveal">
+          Turning raw data<br>into <em class="accent-text">clear decisions</em>.
+        </h1>
+        <p class="hero-sub reveal delay-1">
+          Purushottam Acharya — Data Analyst, Kathmandu.<br>
+          Excel, SQL, Power BI &amp; Python automation.
+        </p>
+        <div class="hero-actions reveal delay-2">
+          <a href="#projects" class="btn btn-text">View Projects</a>
+          <a href="#contact" class="btn btn-text">Let’s Talk</a>
+        </div>
+        <dl class="kpi-cluster reveal delay-3" aria-label="Key stats">
+          <div class="kpi">
+            <dt>Dashboards Built</dt>
+            <dd class="kpi-num counter" data-target="50">0</dd>
+          </div>
+          <div class="kpi">
+            <dt>Datasets Processed</dt>
+            <dd class="kpi-num counter" data-target="500">0</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <div class="container about-centered">
+        <div class="about-copy fade-section">
+          <h2 id="about-heading" class="section-heading">About <span class="accent-text">Me</span></h2>
+          <p>Actuarial Science graduate passionate about business intelligence, analytics, and automation. I turn complex data into actionable insight.</p>
+          <p>My experience spans corporate analytics and freelance work — automated reporting, interactive dashboards, and efficient data pipelines.</p>
+          <ul class="tag-list tag-center" aria-label="Core technologies">
+            <li class="tag">SQL</li>
+            <li class="tag">Python</li>
+            <li class="tag">Power BI</li>
+            <li class="tag">DAX</li>
+            <li class="tag">Power Query</li>
+            <li class="tag">Excel Automation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ EXPERIENCE ═══════════ -->
+    <section id="experience" class="section section-alt" aria-labelledby="exp-heading">
+      <div class="container">
+        <header class="section-header fade-section">
+          <h2 id="exp-heading" class="section-heading">Professional <span class="accent-text">Experience</span></h2>
+          <p class="section-sub">A timeline of my career in data analytics.</p>
+        </header>
+        <div class="h-timeline-container fade-section">
+          <div class="h-timeline-line"></div>
+          <div class="h-timeline-items">
+            <!-- Experience 1 -->
+            <div class="h-timeline-item">
+              <div class="h-timeline-node"></div>
+              <div class="h-timeline-content">
+                <span class="role-badge past">Past</span>
+                
+                <h3 class="h-timeline-title">Actuarial Intern</h3>
+                <p class="h-timeline-org">Pivot Risks Pvt. Ltd.</p>
+                <ul class="task-list">
+                  <li>Risk management analytics</li>
+                  <li>Python data processing</li>
+                  <li>Excel reporting automation</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Experience 2 -->
+            <div class="h-timeline-item">
+              <div class="h-timeline-node"></div>
+              <div class="h-timeline-content">
+                <span class="role-badge freelance">Freelance</span>
+                
+                <h3 class="h-timeline-title">Data Analyst</h3>
+                <p class="h-timeline-org">Self-Employed</p>
+                <ul class="task-list">
+                  <li>Python automation &amp; SQL optimisation</li>
+                  <li>Power BI reporting pipelines</li>
+                  <li>Data cleaning &amp; transformation</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Experience 3 -->
+            <div class="h-timeline-item">
+              <div class="h-timeline-node"></div>
+              <div class="h-timeline-content">
+                <span class="role-badge current">Current</span>
+                
+                <h3 class="h-timeline-title">Data Analyst</h3>
+                <p class="h-timeline-org">MORE Group</p>
+                <ul class="task-list">
+                  <li>Sales &amp; Product Performance Analysis</li>
+                  <li>Payment &amp; Ageing Analysis</li>
+                  <li>Automated Reporting &amp; Dashboards</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ SKILLS (percentages removed) ═══════════ -->
+    <section id="skills" class="section" aria-labelledby="skills-heading">
+      <div class="container">
+        <header class="section-header fade-section">
+          <h2 id="skills-heading" class="section-heading">Core <span class="accent-text">Skills</span></h2>
+          <p class="section-sub">Technical arsenal for data manipulation and visualisation.</p>
+        </header>
+        <div class="skills-grid fade-section">
+          <div class="skill-item">
+            <div class="skill-head">
+              <span class="skill-label">SQL</span>
+            </div>
+            <div class="skill-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+              <div class="skill-fill" style="--pct:95%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-head">
+              <span class="skill-label">Power BI</span>
+            </div>
+            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+              <div class="skill-fill" style="--pct:90%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-head">
+              <span class="skill-label">Python</span>
+            </div>
+            <div class="skill-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+              <div class="skill-fill" style="--pct:85%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-head">
+              <span class="skill-label">Excel</span>
+            </div>
+            <div class="skill-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+              <div class="skill-fill" style="--pct:95%"></div>
+            </div>
+          </div>
+        </div>
+        <ul class="tag-list tag-center fade-section" aria-label="Additional skills">
+          <li class="tag">DAX</li>
+          <li class="tag">Power Query</li>
+          <li class="tag">Power Pivot</li>
+          <li class="tag">Data Cleaning</li>
+          <li class="tag">Dashboard Design</li>
+          <li class="tag">Data Modelling</li>
+          <li class="tag">Business Intelligence</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══════════ PROJECTS ═══════════ -->
+    <section id="projects" class="section section-alt" aria-labelledby="projects-heading">
+      <div class="container">
+        <header class="section-header fade-section">
+          <h2 id="projects-heading" class="section-heading">Featured <span class="accent-text">Projects</span></h2>
+          <p class="section-sub">Dashboards, data extraction, and automated analysis.</p>
+        </header>
+
+        <div class="projects-grid">
+          <article class="project-item fade-section" aria-label="SQL Data Extraction">
+            <a href="https://github.com/amrit-puru17/SQL" target="_blank" rel="noopener noreferrer" class="project-img-link">
+              <img src="sql_analysis_viz_1778135943834.png" alt="SQL database schema visualisation" loading="lazy" class="project-img" />
+            </a>
+            <div class="project-text">
+              <ul class="tag-list">
+                <li class="tag">SQL</li>
+                <li class="tag">Python</li>
+              </ul>
+              <h3 class="project-title">SQL Data Extraction &amp; Analysis</h3>
+              <p class="project-desc">Data extraction and analysis using SQL, with Python (Pandas, Matplotlib / Seaborn) for visualisation.</p>
+              <a href="https://github.com/amrit-puru17/SQL" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+          </article>
+
+          <article class="project-item fade-section delay-1" aria-label="Job Market Dashboard">
+            <a href="https://github.com/amrit-puru17/Power-BI---2" target="_blank" rel="noopener noreferrer" class="project-img-link">
+              <img src="job_market_dashboard_1778136025921.png" alt="Job market analytics dashboard" loading="lazy" class="project-img" />
+            </a>
+            <div class="project-text">
+              <ul class="tag-list">
+                <li class="tag">Power BI</li>
+                <li class="tag">Data Viz</li>
+              </ul>
+              <h3 class="project-title">Job Market Analytics Dashboard</h3>
+              <p class="project-desc">Interactive Power BI dashboard exploring job demand, salaries, and skills.</p>
+              <a href="https://github.com/amrit-puru17/Power-BI---2" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+          </article>
+
+          <article class="project-item fade-section delay-2" aria-label="Job Postings Analysis">
+            <a href="https://github.com/amrit-puru17/Python_" target="_blank" rel="noopener noreferrer" class="project-img-link">
+              <img src="python_job_postings_viz_1778136195565.png" alt="Python Pandas job postings trend" loading="lazy" class="project-img" />
+            </a>
+            <div class="project-text">
+              <ul class="tag-list">
+                <li class="tag">Python</li>
+                <li class="tag">Pandas</li>
+              </ul>
+              <h3 class="project-title">Job Postings Data Analysis</h3>
+              <p class="project-desc">Python-based analysis of large job-posting datasets to uncover market trends.</p>
+              <a href="https://github.com/amrit-puru17/Python_" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub <i class="ph ph-arrow-up-right"></i></a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Proprietary -->
+        <div class="prop-section fade-section">
+          <header class="prop-header">
+            <i class="ph ph-lock-key" aria-hidden="true"></i>
+            <div>
+              <h3>Proprietary Projects</h3>
+              <p>Enterprise systems with confidential data — available for demonstration during interviews.</p>
+            </div>
+          </header>
+          <div class="projects-grid">
+            <article class="project-item prop-item fade-section" aria-label="Ageing Analysis — confidential">
+              <div class="project-img-link grayscale-wrap">
+                <img src="financial_ageing_analysis_viz_1778136222876.png" alt="Accounts receivable ageing analysis" loading="lazy" class="project-img" />
+                <div class="prop-overlay" aria-hidden="true">
+                  <span class="prop-badge"><i class="ph ph-lock"></i> Interview Only</span>
+                </div>
+              </div>
+              <div class="project-text">
+                <ul class="tag-list">
+                  <li class="tag">Python</li>
+                  <li class="tag">Web Automation</li>
+                </ul>
+                <h3 class="project-title">Ageing Analysis System</h3>
+                <p class="project-desc">Tracks accounts receivable ageing categories for proactive payment follow‑ups.</p>
+                <p class="nda-note"><i class="ph ph-shield-check" aria-hidden="true"></i> NDA Protected</p>
+              </div>
+            </article>
+            <article class="project-item prop-item fade-section delay-1" aria-label="Automated Sales Dashboard — confidential">
+              <div class="project-img-link grayscale-wrap">
+                <img src="automated_sales_forecasting_viz_1778136241451.png" alt="Automated sales intelligence dashboard" loading="lazy" class="project-img" />
+                <div class="prop-overlay" aria-hidden="true">
+                  <span class="prop-badge prop-badge-accent"><i class="ph ph-lock"></i> Interview Only</span>
+                </div>
+              </div>
+              <div class="project-text">
+                <ul class="tag-list">
+                  <li class="tag">Python Web Automation</li>
+                </ul>
+                <h3 class="project-title">Automated Sales Dashboard</h3>
+                <p class="project-desc">Corporate intelligence platform for sales, trends, RFM segmentation, and forecasting.</p>
+                <p class="nda-note"><i class="ph ph-shield-check" aria-hidden="true"></i> NDA Protected</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════ EDUCATION & SERVICES ═══════════ -->
+    <section id="education" class="section" aria-labelledby="edu-heading">
+      <div class="container edu-grid">
+        <div class="fade-section">
+          <h2 id="edu-heading" class="section-heading"><i class="ph ph-graduation-cap" aria-hidden="true"></i> Education</h2>
+          <div class="edu-card">
+            <h3>Actuarial Science Graduate</h3>
+            <p class="edu-org">TU School of Mathematical Sciences</p>
+            <p>Rigorous training in mathematics, statistics, and financial modelling for risk assessment in insurance and finance.</p>
+            <ul class="tag-list">
+              <li class="tag">Statistics</li>
+              <li class="tag">Finance</li>
+              <li class="tag">Economics</li>
+              <li class="tag">Risk Management</li>
+              <li class="tag">Investment Analysis</li>
+              <li class="tag">Accounting</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fade-section delay-1">
+          <h2 class="section-heading"><i class="ph ph-briefcase" aria-hidden="true"></i> Services</h2>
+          <ul class="services-list" role="list">
+            <li class="service-item">
+              <i class="ph ph-chart-bar service-icon" aria-hidden="true"></i>
+              <div>
+                <h3>Power BI Dashboards</h3>
+                <p>Interactive data visualisation</p>
+              </div>
+            </li>
+            <li class="service-item">
+              <i class="ph ph-database service-icon" aria-hidden="true"></i>
+              <div>
+                <h3>SQL Optimisation</h3>
+                <p>Database querying &amp; tuning</p>
+              </div>
+            </li>
+            <li class="service-item">
+              <i class="ph ph-file-code service-icon" aria-hidden="true"></i>
+              <div>
+                <h3>Python Automation</h3>
+                <p>Automated data pipelines</p>
+              </div>
+            </li>
+            <li class="service-item">
+              <i class="ph ph-microsoft-excel-logo service-icon" aria-hidden="true"></i>
+              <div>
+                <h3>Excel Automation</h3>
+                <p>Power Query &amp; Power Pivot</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section id="contact" class="section section-alt" aria-labelledby="contact-heading">
+      <div class="container contact-grid">
+        <div class="contact-copy fade-section">
+          <h2 id="contact-heading" class="section-heading">Let’s <span class="accent-text">Connect</span></h2>
+          <p>Open for freelance opportunities and corporate roles.</p>
+          <address class="contact-info" aria-label="Contact details">
+            <div class="contact-item">
+              <i class="ph ph-map-pin" aria-hidden="true"></i>
+              <span>Kathmandu, Nepal</span>
+            </div>
+            <div class="contact-item">
+              <i class="ph ph-envelope" aria-hidden="true"></i>
+              <a href="mailto:acharyapurushottam177@gmail.com">acharyapurushottam177@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <i class="ph ph-phone" aria-hidden="true"></i>
+              <a href="tel:+9779861543379">+977 9861543379</a>
+            </div>
+          </address>
+          <div class="social-row" aria-label="Social links">
+            <a href="https://github.com/amrit-puru17" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+            <a href="https://wa.me/9779861543379" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp"><i class="ph ph-whatsapp-logo"></i></a>
+          </div>
+        </div>
+
+        <form class="contact-form fade-section delay-1" action="https://formsubmit.co/acharyapurushottam177@gmail.com" method="POST" aria-label="Contact form" novalidate>
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-field">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required placeholder="Purushottam Acharya" />
+          </div>
+          <div class="form-field">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required placeholder="hello@example.com" />
+          </div>
+          <div class="form-field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required placeholder="What would you like to work on?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-text">Send Message <i class="ph ph-paper-plane-right" aria-hidden="true"></i></button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <a href="#hero" class="nav-logo footer-logo" aria-label="Back to top">PA</a>
+      <p class="footer-copy">&copy; 2026 Purushottam Acharya</p>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-links" role="list">
+          <li><a href="Purushottam_Acharya_Resume_.pdf" download>Resume</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+  <script src="animations.js" defer></script>
+
+</body>
+</html>
