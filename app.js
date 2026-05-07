@@ -70,4 +70,45 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
+  // ── Contact Form (AJAX) ──
+  const contactForm = document.querySelector('.contact-form');
+  const formStatus = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(contactForm);
+      const btnText = submitBtn.querySelector('span');
+      
+      // Set loading state
+      submitBtn.disabled = true;
+      btnText.textContent = 'Sending...';
+      formStatus.textContent = '';
+      formStatus.className = 'form-status';
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          formStatus.textContent = 'Thanks! Your message has been sent successfully.';
+          formStatus.classList.add('success');
+          contactForm.reset();
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        formStatus.textContent = 'Oops! There was a problem sending your message. Please try again.';
+        formStatus.classList.add('error');
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = 'Send Message';
+      }
+    });
+  }
 })();

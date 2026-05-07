@@ -231,6 +231,23 @@ body.dark #icon-moon{display:block}
 .form-field input:focus,.form-field textarea:focus{border-bottom-color:var(--accent)}
 .form-field input::placeholder,.form-field textarea::placeholder{color:var(--muted);opacity:0.7}
 
+.form-status {
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+  display: none;
+}
+.form-status.success {
+  display: block;
+  color: #2e7d32;
+}
+.form-status.error {
+  display: block;
+  color: #d32f2f;
+}
+body.dark .form-status.success { color: #81c784; }
+body.dark .form-status.error { color: #e57373; }
+
 /* ── Footer ── */
 .site-footer{border-top:1px solid var(--border-thin);padding:2rem 0}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}

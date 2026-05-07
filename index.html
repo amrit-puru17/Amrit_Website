@@ -417,9 +417,13 @@
           </div>
           <div class="form-field">
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" required placeholder="What would you like to work on?"></textarea>
+            <textarea id="message" name="message" rows="4" required placeholder="How can I help you?"></textarea>
           </div>
-          <button type="submit" class="btn btn-text">Send Message <i class="ph ph-paper-plane-right" aria-hidden="true"></i></button>
+          <div id="form-status" class="form-status" aria-live="polite"></div>
+          <button type="submit" class="btn btn-text" id="submit-btn">
+            <span>Send Message</span>
+            <i class="ph ph-paper-plane-tilt"></i>
+          </button>
         </form>
       </div>
     </section>
