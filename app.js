@@ -91,29 +91,30 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
-  // ── Contact Form (native submit + validation) ──
+  // ── Contact Form (no refresh via hidden iframe) ──
   const contactForm = document.querySelector('.contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm) {
-    // Show success state after redirect back.
-    const url = new URL(window.location.href);
-    if (url.searchParams.get('sent') === '1') {
-      formStatus.textContent = 'Thanks — your message has been sent. I’ll get back to you soon.';
-      formStatus.className = 'form-status success';
-      url.searchParams.delete('sent');
-      window.history.replaceState({}, '', url.toString());
+    const iframe = document.getElementById('formsubmit-target');
+    let submitting = false;
 
-      // Ensure users actually see the message after redirect.
-      const contact = document.getElementById('contact');
-      if (contact) {
-        requestAnimationFrame(() => {
-          contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // Focus for screen readers/keyboard users (without changing visual layout).
-          setTimeout(() => formStatus?.focus?.(), 250);
-        });
-      }
+    if (iframe && iframe.tagName === 'IFRAME') {
+      // Route form submission into hidden iframe to avoid page refresh.
+      contactForm.setAttribute('target', 'formsubmit-target');
+
+      iframe.addEventListener('load', () => {
+        if (!submitting) return;
+        submitting = false;
+        formStatus.textContent = 'Thanks — your message has been sent. I’ll get back to you soon.';
+        formStatus.className = 'form-status success';
+        contactForm.reset();
+        submitBtn.disabled = false;
+        const btnText = submitBtn?.querySelector('span');
+        if (btnText) btnText.textContent = 'Send Message';
+        setTimeout(() => formStatus?.focus?.(), 50);
+      });
     }
 
     contactForm.addEventListener('submit', (e) => {
@@ -143,32 +144,23 @@
         return;
       }
 
-      // Ensure FormSubmit redirects back to this page.
-      const existingNext = contactForm.querySelector('input[name="_next"]');
-      // FormSubmit requires a public http(s) URL for `_next`.
-      // If you're testing via `file:///`, skip `_next` (FormSubmit will use its default redirect).
-      if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-        const nextUrl = new URL(window.location.href);
-        nextUrl.searchParams.set('sent', '1');
-        nextUrl.hash = 'contact';
-        const nextValue = nextUrl.toString();
-        if (existingNext) existingNext.value = nextValue;
-        else {
-          const next = document.createElement('input');
-          next.type = 'hidden';
-          next.name = '_next';
-          next.value = nextValue;
-          contactForm.appendChild(next);
-        }
-      } else if (existingNext) {
-        existingNext.remove();
-      }
-
       submitBtn.disabled = true;
       if (btnText) btnText.textContent = 'Sending…';
       formStatus.textContent = 'Sending…';
       formStatus.className = 'form-status';
-      // Allow native submit to proceed (reliable for FormSubmit).
+
+      // If iframe submission isn't available for some reason, block submit to avoid navigating away.
+      if (!iframe || iframe.tagName !== 'IFRAME') {
+        e.preventDefault();
+        formStatus.textContent = 'Unable to send right now (missing form target). Please refresh and try again.';
+        formStatus.className = 'form-status error';
+        submitBtn.disabled = false;
+        if (btnText) btnText.textContent = 'Send Message';
+        return;
+      }
+
+      submitting = true;
+      // Allow native submit to iframe (no page refresh).
     });
   }
 })();
