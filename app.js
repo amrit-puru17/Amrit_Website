@@ -7,12 +7,17 @@
   // ── Theme Toggle ──
   const themeBtn = document.getElementById('theme-btn');
   const saved = localStorage.getItem('theme');
-  if (saved === 'dark') document.body.classList.add('dark');
-  else if (!saved) document.body.classList.remove('dark'); // default light
+  const root = document.documentElement;
+  if (saved === 'dark') { document.body.classList.add('dark'); root.classList.add('dark'); }
+  else { document.body.classList.remove('dark'); root.classList.remove('dark'); } // default light
+  themeBtn?.setAttribute('aria-pressed', document.body.classList.contains('dark') ? 'true' : 'false');
 
   themeBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    root.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
   });
 
   // ── Mobile Menu ──
@@ -20,23 +25,39 @@
   const menuClose = document.getElementById('menu-close');
   const drawer = document.getElementById('mobile-menu');
   const drawerLinks = drawer.querySelectorAll('.drawer-link');
+  let lastFocused = null;
 
   function openMenu() {
+    lastFocused = document.activeElement;
     drawer.hidden = false;
     requestAnimationFrame(() => drawer.classList.add('open'));
     menuBtn.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    // Move focus into the dialog for keyboard users
+    setTimeout(() => {
+      const firstLink = drawer.querySelector('a,button,[tabindex]:not([tabindex="-1"])');
+      firstLink?.focus();
+    }, 50);
   }
   function closeMenu() {
     drawer.classList.remove('open');
     menuBtn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
     setTimeout(() => { drawer.hidden = true; }, 300);
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
 
-  menuBtn.addEventListener('click', openMenu);
+  menuBtn.addEventListener('click', () => {
+    const isOpen = !drawer.hidden && drawer.classList.contains('open');
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
   menuClose.addEventListener('click', closeMenu);
   drawerLinks.forEach(l => l.addEventListener('click', closeMenu));
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!drawer.hidden) closeMenu();
+  });
 
   // ── Sticky Nav subtle shadow ──
   const header = document.getElementById('site-header');
@@ -70,65 +91,65 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
-  // ── Contact Form (AJAX) ──
+  // ── Contact Form (native submit + validation) ──
   const contactForm = document.querySelector('.contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
+    // Show success state after redirect back.
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('sent') === '1') {
+      formStatus.textContent = 'Thanks — your message has been sent. I’ll get back to you soon.';
+      formStatus.className = 'form-status success';
+      url.searchParams.delete('sent');
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    contactForm.addEventListener('submit', (e) => {
       const formData = new FormData(contactForm);
       const name = formData.get('name');
       const email = formData.get('email');
       const message = formData.get('message');
-      const btnText = submitBtn.querySelector('span');
-      
-      // Client-side validation
-      if (!name || name.trim().length < 2) {
+      const btnText = submitBtn?.querySelector('span');
+
+      // Client-side validation (only prevent submit when invalid)
+      if (!name || String(name).trim().length < 2) {
+        e.preventDefault();
         formStatus.textContent = 'Please provide a valid name.';
         formStatus.className = 'form-status error';
         return;
       }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
+        e.preventDefault();
         formStatus.textContent = 'Please provide a valid email address.';
         formStatus.className = 'form-status error';
         return;
       }
-      if (!message || message.trim().length < 5) {
+      if (!message || String(message).trim().length < 5) {
+        e.preventDefault();
         formStatus.textContent = 'Please write a brief message so I can help you better.';
         formStatus.className = 'form-status error';
         return;
       }
-      
-      // Set loading state
-      submitBtn.disabled = true;
-      btnText.textContent = 'Sending...';
-      formStatus.textContent = '';
-      formStatus.className = 'form-status';
 
-      try {
-        const response = await fetch(contactForm.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          formStatus.textContent = 'Thank you for reaching out 💛 Your message means a lot — I’ll get back to you soon ✨';
-          formStatus.classList.add('success');
-          contactForm.reset();
-        } else {
-          throw new Error();
-        }
-      } catch (err) {
-        formStatus.textContent = 'Oops! There was a problem sending your message. Please try again.';
-        formStatus.classList.add('error');
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = 'Send Message';
+      // Ensure FormSubmit redirects back to this page.
+      const existingNext = contactForm.querySelector('input[name="_next"]');
+      const nextValue = `${window.location.origin}${window.location.pathname}?sent=1#contact`;
+      if (existingNext) existingNext.value = nextValue;
+      else {
+        const next = document.createElement('input');
+        next.type = 'hidden';
+        next.name = '_next';
+        next.value = nextValue;
+        contactForm.appendChild(next);
       }
+
+      submitBtn.disabled = true;
+      if (btnText) btnText.textContent = 'Sending…';
+      formStatus.textContent = 'Sending…';
+      formStatus.className = 'form-status';
+      // Allow native submit to proceed (reliable for FormSubmit).
     });
   }
 })();
