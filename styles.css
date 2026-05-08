@@ -252,10 +252,17 @@ button.btn:disabled,.btn[aria-disabled="true"]{opacity:0.6;pointer-events:none}
 .tag-center{justify-content:center;margin-top:2rem}
 
 /* ── Growing Timeline ── */
-.h-timeline-container { position: relative; margin-top: 2rem; padding: 3rem 0; }
+.h-timeline-container {
+  position: relative;
+  margin-top: 2rem;
+  padding: 3rem 0;
+  --node-outer: 22px;        /* 12px dot + 5px border on each side */
+  --node-center: 11px;       /* half of outer size */
+}
 .h-timeline-line { 
   position: absolute; 
-  top: calc(3rem + 7px); 
+  /* Align line to the centre of the dot */
+  top: calc(3rem + var(--node-center));
   left: 0; 
   right: 0; 
   height: 1px; 
@@ -282,7 +289,22 @@ button.btn:disabled,.btn[aria-disabled="true"]{opacity:0.6;pointer-events:none}
   .h-timeline-item:nth-child(3):hover { transform: translateY(calc(-2.03vw + 0.08rem)) scale(1.02); }
 }
 
-.h-timeline-node { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; border: 5px solid var(--bg); margin-bottom: 1rem; transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease); position: relative; }
+.h-timeline-node {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 5px solid var(--bg);
+  margin-bottom: 1rem;
+  transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  position: relative;
+  box-shadow:
+    0 0 0 0 rgba(163, 139, 120, 0.0),
+    0 10px 24px rgba(0,0,0,0.06);
+  animation: timeline-node-pulse 2400ms ease-in-out infinite;
+}
+.h-timeline-item:nth-child(2) .h-timeline-node { animation-delay: 500ms; }
+.h-timeline-item:nth-child(3) .h-timeline-node { animation-delay: 1000ms; }
 .h-timeline-item:hover .h-timeline-node { transform: scale(1.18); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06); }
 .h-timeline-content { max-width: 280px; background: color-mix(in oklab, var(--bg) 78%, var(--surface)); padding: 1.25rem; border: 1px solid var(--border); border-radius: var(--r-md); text-align: left; box-shadow: var(--shadow-1); transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease), border-color var(--t) var(--ease); }
 .h-timeline-item:hover .h-timeline-content{transform:translateY(-2px);box-shadow:var(--shadow-2);border-color:color-mix(in oklab, var(--border) 60%, var(--accent))}
@@ -295,6 +317,16 @@ button.btn:disabled,.btn[aria-disabled="true"]{opacity:0.6;pointer-events:none}
 .role-badge.past { background: rgba(163,139,120,0.05); color: var(--muted); }
 
 .h-timeline-item:has(.current) .h-timeline-node { box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 14%, transparent); }
+
+@keyframes timeline-node-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(163, 139, 120, 0.00), 0 10px 24px rgba(0,0,0,0.06); transform: scale(1); }
+  45%  { box-shadow: 0 0 0 10px rgba(163, 139, 120, 0.10), 0 14px 32px rgba(0,0,0,0.08); transform: scale(1.04); }
+  100% { box-shadow: 0 0 0 0 rgba(163, 139, 120, 0.00), 0 10px 24px rgba(0,0,0,0.06); transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .h-timeline-node{ animation: none !important; }
+}
 
 @media (max-width: 767px) {
   .h-timeline-container { padding: 2rem 0; }
