@@ -123,7 +123,7 @@
             formStatus.textContent = '';
             formStatus.classList.remove('fade-out');
           }, 450);
-        }, 3500);
+        }, 3000);
         contactForm.reset();
         submitBtn.disabled = false;
         const btnText = submitBtn?.querySelector('span');
