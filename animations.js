@@ -49,4 +49,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Timeline line growth
+  const timelineLine = document.querySelector('.h-timeline-line');
+  if (timelineLine) {
+    gsap.fromTo(timelineLine,
+      { scaleX: 0, transformOrigin: 'left center' },
+      {
+        scaleX: 1,
+        duration: 1.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.h-timeline-container',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  }
 });
