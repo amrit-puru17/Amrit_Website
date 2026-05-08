@@ -79,7 +79,7 @@
       if (!entry.isIntersecting) return;
       const el = entry.target;
       const target = +el.dataset.target;
-      const suffix = target >= 50 ? '+' : '';
+      const suffix = (el.dataset.suffix ?? (target >= 50 ? '+' : ''));
       let current = 0;
       const step = Math.max(1, Math.floor(target / 60));
       const timer = setInterval(() => {
