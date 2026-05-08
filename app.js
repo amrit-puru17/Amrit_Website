@@ -164,18 +164,46 @@
       formStatus.textContent = 'Sending…';
       formStatus.className = 'form-status';
 
-      // If iframe submission isn't available for some reason, block submit to avoid navigating away.
-      if (!iframe || iframe.tagName !== 'IFRAME') {
-        e.preventDefault();
-        formStatus.textContent = 'Unable to send right now (missing form target). Please refresh and try again.';
+      // Prefer fetch() POST to avoid iframe-blocking issues.
+      e.preventDefault();
+      submitting = true;
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors',
+        keepalive: true
+      }).then(() => {
+        // Trigger the same "success" UX (3s fade-out).
+        submitting = false;
+        formStatus.textContent = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
+        formStatus.className = 'form-status success';
+        const thisRun = Date.now();
+        formStatus.dataset.runId = String(thisRun);
+        window.setTimeout(() => {
+          if (!formStatus?.isConnected) return;
+          if (formStatus.dataset.runId !== String(thisRun)) return;
+          formStatus.classList.add('fade-out');
+          window.setTimeout(() => {
+            if (!formStatus?.isConnected) return;
+            if (formStatus.dataset.runId !== String(thisRun)) return;
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+            formStatus.classList.remove('fade-out');
+          }, 450);
+        }, 3000);
+
+        contactForm.reset();
+        submitBtn.disabled = false;
+        if (btnText) btnText.textContent = 'Send Message';
+        setTimeout(() => formStatus?.focus?.(), 50);
+      }).catch(() => {
+        submitting = false;
+        formStatus.textContent = 'Unable to send right now. Please try again in a moment.';
         formStatus.className = 'form-status error';
         submitBtn.disabled = false;
         if (btnText) btnText.textContent = 'Send Message';
-        return;
-      }
-
-      submitting = true;
-      // Allow native submit to iframe (no page refresh).
+      });
     });
   }
 })();
