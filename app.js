@@ -107,7 +107,7 @@
       iframe.addEventListener('load', () => {
         if (!submitting) return;
         submitting = false;
-        formStatus.textContent = 'Thanks — your message has been sent. I’ll get back to you soon.';
+        formStatus.textContent = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
         formStatus.className = 'form-status success';
         contactForm.reset();
         submitBtn.disabled = false;
