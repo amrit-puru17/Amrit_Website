@@ -104,6 +104,16 @@
       formStatus.className = 'form-status success';
       url.searchParams.delete('sent');
       window.history.replaceState({}, '', url.toString());
+
+      // Ensure users actually see the message after redirect.
+      const contact = document.getElementById('contact');
+      if (contact) {
+        requestAnimationFrame(() => {
+          contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Focus for screen readers/keyboard users (without changing visual layout).
+          setTimeout(() => formStatus?.focus?.(), 250);
+        });
+      }
     }
 
     contactForm.addEventListener('submit', (e) => {
@@ -135,14 +145,23 @@
 
       // Ensure FormSubmit redirects back to this page.
       const existingNext = contactForm.querySelector('input[name="_next"]');
-      const nextValue = `${window.location.origin}${window.location.pathname}?sent=1#contact`;
-      if (existingNext) existingNext.value = nextValue;
-      else {
-        const next = document.createElement('input');
-        next.type = 'hidden';
-        next.name = '_next';
-        next.value = nextValue;
-        contactForm.appendChild(next);
+      // FormSubmit requires a public http(s) URL for `_next`.
+      // If you're testing via `file:///`, skip `_next` (FormSubmit will use its default redirect).
+      if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+        const nextUrl = new URL(window.location.href);
+        nextUrl.searchParams.set('sent', '1');
+        nextUrl.hash = 'contact';
+        const nextValue = nextUrl.toString();
+        if (existingNext) existingNext.value = nextValue;
+        else {
+          const next = document.createElement('input');
+          next.type = 'hidden';
+          next.name = '_next';
+          next.value = nextValue;
+          contactForm.appendChild(next);
+        }
+      } else if (existingNext) {
+        existingNext.remove();
       }
 
       submitBtn.disabled = true;
