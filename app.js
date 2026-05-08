@@ -109,6 +109,21 @@
         submitting = false;
         formStatus.textContent = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
         formStatus.className = 'form-status success';
+        // Auto-hide the success message after a few seconds.
+        const thisRun = Date.now();
+        formStatus.dataset.runId = String(thisRun);
+        window.setTimeout(() => {
+          if (!formStatus?.isConnected) return;
+          if (formStatus.dataset.runId !== String(thisRun)) return;
+          formStatus.classList.add('fade-out');
+          window.setTimeout(() => {
+            if (!formStatus?.isConnected) return;
+            if (formStatus.dataset.runId !== String(thisRun)) return;
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+            formStatus.classList.remove('fade-out');
+          }, 450);
+        }, 3500);
         contactForm.reset();
         submitBtn.disabled = false;
         const btnText = submitBtn?.querySelector('span');

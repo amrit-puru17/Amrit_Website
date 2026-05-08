@@ -421,6 +421,9 @@ button.btn:disabled,.btn[aria-disabled="true"]{opacity:0.6;pointer-events:none}
   padding: 0.5rem 0;
   max-width: 450px;
   display: none;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 420ms var(--ease), transform 420ms var(--ease);
 }
 .form-status.success {
   display: block;
@@ -432,6 +435,11 @@ button.btn:disabled,.btn[aria-disabled="true"]{opacity:0.6;pointer-events:none}
 }
 body.dark .form-status.success { color: #81c784; }
 body.dark .form-status.error { color: #e57373; }
+
+.form-status.fade-out{
+  opacity:0;
+  transform:translateY(-2px);
+}
 
 /* ── Footer ── */
 .site-footer{border-top:1px solid var(--border);padding:var(--s7) 0}
