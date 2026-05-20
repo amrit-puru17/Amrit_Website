@@ -405,11 +405,12 @@
           </div>
         </div>
 
-        <form class="contact-form fade-section delay-1" action="#" method="POST" aria-label="Contact form" novalidate data-contact-email="acharyapurushottam177@gmail.com">
+        <form class="contact-form fade-section delay-1" action="https://api.web3forms.com/submit" method="POST" aria-label="Contact form" novalidate data-contact-email="acharyapurushottam177@gmail.com">
           <input type="text" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <!-- Free key: https://web3forms.com → enter your email → paste access_key below -->
           <input type="hidden" name="access_key" id="web3forms-access-key" value="24d85b0f-a77d-4c12-993e-bcc41748289a" />
           <input type="hidden" name="subject" value="New portfolio message" />
+          <input type="hidden" name="redirect" id="form-redirect" value="" />
           <div class="form-field">
             <input type="text" id="name" name="name" autocomplete="name" required placeholder="Purushottam Acharya" />
             <label for="name">Your Name</label>
@@ -428,6 +429,7 @@
             <i class="ph ph-paper-plane-tilt"></i>
           </button>
         </form>
+        <iframe name="w3f-iframe" id="w3f-iframe" title="Form submission" hidden></iframe>
       </div>
     </section>
   </main>
@@ -447,7 +449,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=1.4" defer></script>
+  <script src="app.js?v=1.5" defer></script>
   <script src="animations.js" defer></script>
 
 </body>

@@ -91,12 +91,16 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
-  // ── Contact Form (Web3Forms + mailto fallback) ──
+  // ── Contact Form (Web3Forms — iframe POST + fetch) ──
   const contactForm = document.querySelector('.contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
+  const formIframe = document.getElementById('w3f-iframe');
+  const formRedirect = document.getElementById('form-redirect');
   const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-  const CONTACT_EMAIL = contactForm?.dataset.contactEmail || 'acharyapurushottam177@gmail.com';
+  const SUCCESS_MSG = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
+  let iframePending = false;
+  let iframeTimeoutId = null;
 
   function resetSubmitButton() {
     submitBtn.disabled = false;
@@ -105,7 +109,10 @@
   }
 
   function showFormSuccess(text) {
-    formStatus.textContent = text;
+    iframePending = false;
+    if (iframeTimeoutId) window.clearTimeout(iframeTimeoutId);
+    iframeTimeoutId = null;
+    formStatus.textContent = text || SUCCESS_MSG;
     formStatus.className = 'form-status success';
     const thisRun = Date.now();
     formStatus.dataset.runId = String(thisRun);
@@ -126,22 +133,60 @@
     setTimeout(() => formStatus?.focus?.(), 50);
   }
 
-  function openMailtoFallback(name, email, message) {
-    const subject = `Portfolio message from ${name}`;
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    window.location.href =
-      `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    showFormSuccess(
-      'Our message service is temporarily down — your email app should open. Hit Send there and I’ll reply soon.'
-    );
+  function showFormError(text) {
+    iframePending = false;
+    if (iframeTimeoutId) window.clearTimeout(iframeTimeoutId);
+    iframeTimeoutId = null;
+    formStatus.textContent = text;
+    formStatus.className = 'form-status error';
+    resetSubmitButton();
   }
 
-  function hasWeb3FormsKey(formData) {
-    const key = String(formData.get('access_key') || '').trim();
-    return key.length > 10 && !/^(your|replace|paste|xxx)/i.test(key);
+  function setRedirectUrl() {
+    if (!formRedirect) return;
+    try {
+      formRedirect.value = new URL('thanks.html', window.location.href).href;
+    } catch {
+      formRedirect.value = '';
+    }
+  }
+
+  function submitViaIframe() {
+    if (!formIframe || !contactForm.action) {
+      showFormError('Unable to send right now. Please email acharyapurushottam177@gmail.com directly.');
+      return;
+    }
+    setRedirectUrl();
+    iframePending = true;
+    contactForm.setAttribute('target', 'w3f-iframe');
+    if (iframeTimeoutId) window.clearTimeout(iframeTimeoutId);
+    iframeTimeoutId = window.setTimeout(() => {
+      if (!iframePending) return;
+      showFormError('Sending is taking longer than expected. Please try again.');
+    }, 20000);
+    contactForm.submit();
+  }
+
+  window.addEventListener('message', (e) => {
+    if (!iframePending || e.data?.type !== 'web3forms-success') return;
+    showFormSuccess(SUCCESS_MSG);
+  });
+
+  if (formIframe) {
+    formIframe.addEventListener('load', () => {
+      if (!iframePending) return;
+      try {
+        const path = formIframe.contentWindow?.location?.pathname || '';
+        if (path.endsWith('thanks.html')) showFormSuccess(SUCCESS_MSG);
+      } catch {
+        /* cross-origin until redirect completes */
+      }
+    });
   }
 
   if (contactForm) {
+    setRedirectUrl();
+
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(contactForm);
@@ -153,64 +198,42 @@
       if (formData.get('botcheck')) return;
 
       if (!name || String(name).trim().length < 2) {
-        formStatus.textContent = 'Please provide a valid name.';
-        formStatus.className = 'form-status error';
+        showFormError('Please provide a valid name.');
         return;
       }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
-        formStatus.textContent = 'Please provide a valid email address.';
-        formStatus.className = 'form-status error';
+        showFormError('Please provide a valid email address.');
         return;
       }
       if (!message || String(message).trim().length < 5) {
-        formStatus.textContent = 'Please write a brief message so I can help you better.';
-        formStatus.className = 'form-status error';
+        showFormError('Please write a brief message so I can help you better.');
         return;
       }
 
-      const trimmed = {
-        name: String(name).trim(),
-        email: String(email).trim(),
-        message: String(message).trim()
-      };
+      const accessKey = String(formData.get('access_key') || '').trim();
+      if (!accessKey) {
+        showFormError('Contact form is not configured yet. Please email acharyapurushottam177@gmail.com.');
+        return;
+      }
 
       submitBtn.disabled = true;
       if (btnText) btnText.textContent = 'Sending…';
       formStatus.textContent = 'Sending…';
       formStatus.className = 'form-status';
 
-      if (!hasWeb3FormsKey(formData)) {
-        openMailtoFallback(trimmed.name, trimmed.email, trimmed.message);
+      if (window.location.protocol === 'file:') {
+        showFormError('Open this site via http://localhost or your live URL (not as a saved file) to send messages.');
         return;
       }
 
-      const payload = {
-        access_key: String(formData.get('access_key')).trim(),
-        name: trimmed.name,
-        email: trimmed.email,
-        message: trimmed.message,
-        subject: formData.get('subject') || 'New portfolio message',
-        from_name: trimmed.name,
-        botcheck: ''
-      };
+      setRedirectUrl();
+      if (!formRedirect?.value) {
+        showFormError('Unable to send from this page. Please use your deployed portfolio URL.');
+        return;
+      }
 
-      fetch(WEB3FORMS_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          if (res.ok && data.success) {
-            showFormSuccess('Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺');
-            return;
-          }
-          throw new Error(data.message || 'Submission failed');
-        })
-        .catch(() => openMailtoFallback(trimmed.name, trimmed.email, trimmed.message));
+      // Native POST + redirect (Web3Forms does not apply redirect for fetch/AJAX).
+      submitViaIframe();
     });
   }
 })();

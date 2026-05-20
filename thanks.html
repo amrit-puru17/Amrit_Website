@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Message sent</title>
+</head>
+<body>
+  <script>
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: 'web3forms-success' }, '*');
+    }
+  </script>
+</body>
+</html>
