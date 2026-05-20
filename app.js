@@ -91,119 +91,126 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
-  // ── Contact Form (no refresh via hidden iframe) ──
+  // ── Contact Form (Web3Forms + mailto fallback) ──
   const contactForm = document.querySelector('.contact-form');
   const formStatus = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
+  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+  const CONTACT_EMAIL = contactForm?.dataset.contactEmail || 'acharyapurushottam177@gmail.com';
+
+  function resetSubmitButton() {
+    submitBtn.disabled = false;
+    const btnText = submitBtn?.querySelector('span');
+    if (btnText) btnText.textContent = 'Send Message';
+  }
+
+  function showFormSuccess(text) {
+    formStatus.textContent = text;
+    formStatus.className = 'form-status success';
+    const thisRun = Date.now();
+    formStatus.dataset.runId = String(thisRun);
+    window.setTimeout(() => {
+      if (!formStatus?.isConnected) return;
+      if (formStatus.dataset.runId !== String(thisRun)) return;
+      formStatus.classList.add('fade-out');
+      window.setTimeout(() => {
+        if (!formStatus?.isConnected) return;
+        if (formStatus.dataset.runId !== String(thisRun)) return;
+        formStatus.className = 'form-status';
+        formStatus.textContent = '';
+        formStatus.classList.remove('fade-out');
+      }, 450);
+    }, 3000);
+    contactForm.reset();
+    resetSubmitButton();
+    setTimeout(() => formStatus?.focus?.(), 50);
+  }
+
+  function openMailtoFallback(name, email, message) {
+    const subject = `Portfolio message from ${name}`;
+    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+    window.location.href =
+      `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    showFormSuccess(
+      'Our message service is temporarily down — your email app should open. Hit Send there and I’ll reply soon.'
+    );
+  }
+
+  function hasWeb3FormsKey(formData) {
+    const key = String(formData.get('access_key') || '').trim();
+    return key.length > 10 && !/^(your|replace|paste|xxx)/i.test(key);
+  }
 
   if (contactForm) {
-    const iframe = document.getElementById('formsubmit-target');
-    let submitting = false;
-
-    if (iframe && iframe.tagName === 'IFRAME') {
-      // Route form submission into hidden iframe to avoid page refresh.
-      contactForm.setAttribute('target', 'formsubmit-target');
-
-      iframe.addEventListener('load', () => {
-        if (!submitting) return;
-        submitting = false;
-        formStatus.textContent = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
-        formStatus.className = 'form-status success';
-        // Auto-hide the success message after a few seconds.
-        const thisRun = Date.now();
-        formStatus.dataset.runId = String(thisRun);
-        window.setTimeout(() => {
-          if (!formStatus?.isConnected) return;
-          if (formStatus.dataset.runId !== String(thisRun)) return;
-          formStatus.classList.add('fade-out');
-          window.setTimeout(() => {
-            if (!formStatus?.isConnected) return;
-            if (formStatus.dataset.runId !== String(thisRun)) return;
-            formStatus.className = 'form-status';
-            formStatus.textContent = '';
-            formStatus.classList.remove('fade-out');
-          }, 450);
-        }, 3000);
-        contactForm.reset();
-        submitBtn.disabled = false;
-        const btnText = submitBtn?.querySelector('span');
-        if (btnText) btnText.textContent = 'Send Message';
-        setTimeout(() => formStatus?.focus?.(), 50);
-      });
-    }
-
     contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
       const formData = new FormData(contactForm);
       const name = formData.get('name');
       const email = formData.get('email');
       const message = formData.get('message');
       const btnText = submitBtn?.querySelector('span');
 
-      // Client-side validation (only prevent submit when invalid)
+      if (formData.get('botcheck')) return;
+
       if (!name || String(name).trim().length < 2) {
-        e.preventDefault();
         formStatus.textContent = 'Please provide a valid name.';
         formStatus.className = 'form-status error';
         return;
       }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
-        e.preventDefault();
         formStatus.textContent = 'Please provide a valid email address.';
         formStatus.className = 'form-status error';
         return;
       }
       if (!message || String(message).trim().length < 5) {
-        e.preventDefault();
         formStatus.textContent = 'Please write a brief message so I can help you better.';
         formStatus.className = 'form-status error';
         return;
       }
+
+      const trimmed = {
+        name: String(name).trim(),
+        email: String(email).trim(),
+        message: String(message).trim()
+      };
 
       submitBtn.disabled = true;
       if (btnText) btnText.textContent = 'Sending…';
       formStatus.textContent = 'Sending…';
       formStatus.className = 'form-status';
 
-      // Prefer fetch() POST to avoid iframe-blocking issues.
-      e.preventDefault();
-      submitting = true;
+      if (!hasWeb3FormsKey(formData)) {
+        openMailtoFallback(trimmed.name, trimmed.email, trimmed.message);
+        return;
+      }
 
-      fetch(contactForm.action, {
+      const payload = {
+        access_key: String(formData.get('access_key')).trim(),
+        name: trimmed.name,
+        email: trimmed.email,
+        message: trimmed.message,
+        subject: formData.get('subject') || 'New portfolio message',
+        from_name: trimmed.name,
+        botcheck: ''
+      };
+
+      fetch(WEB3FORMS_URL, {
         method: 'POST',
-        body: formData,
-        mode: 'no-cors',
-        keepalive: true
-      }).then(() => {
-        // Trigger the same "success" UX (3s fade-out).
-        submitting = false;
-        formStatus.textContent = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
-        formStatus.className = 'form-status success';
-        const thisRun = Date.now();
-        formStatus.dataset.runId = String(thisRun);
-        window.setTimeout(() => {
-          if (!formStatus?.isConnected) return;
-          if (formStatus.dataset.runId !== String(thisRun)) return;
-          formStatus.classList.add('fade-out');
-          window.setTimeout(() => {
-            if (!formStatus?.isConnected) return;
-            if (formStatus.dataset.runId !== String(thisRun)) return;
-            formStatus.className = 'form-status';
-            formStatus.textContent = '';
-            formStatus.classList.remove('fade-out');
-          }, 450);
-        }, 3000);
-
-        contactForm.reset();
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Message';
-        setTimeout(() => formStatus?.focus?.(), 50);
-      }).catch(() => {
-        submitting = false;
-        formStatus.textContent = 'Unable to send right now. Please try again in a moment.';
-        formStatus.className = 'form-status error';
-        submitBtn.disabled = false;
-        if (btnText) btnText.textContent = 'Send Message';
-      });
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(async (res) => {
+          const data = await res.json();
+          if (res.ok && data.success) {
+            showFormSuccess('Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺');
+            return;
+          }
+          throw new Error(data.message || 'Submission failed');
+        })
+        .catch(() => openMailtoFallback(trimmed.name, trimmed.email, trimmed.message));
     });
   }
 })();
