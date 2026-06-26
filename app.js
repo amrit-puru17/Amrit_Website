@@ -208,7 +208,7 @@ formStatus.textContent = text;
       if (submitBtn) submitBtn.disabled = true;
       if (btnText) btnText.textContent = 'Sending…';
       formStatus.textContent = 'Sending…';
-      formStatus.className = 'form-status';
+      formStatus.className = 'form-status sending';
 
       if (window.location.protocol === 'file:') {
         showFormError('Open this site via http://localhost or your live URL (not as a saved file) to send messages.');
@@ -221,8 +221,9 @@ formStatus.textContent = text;
       }
       syncReplyFields(name, email);
 
-      // Native POST + redirect (Web3Forms does not apply redirect for fetch/AJAX).
-      submitViaIframe();
+      submitViaFetch(new FormData(contactForm))
+        .then(() => showFormSuccess())
+        .catch((err) => showFormError(err?.message || 'Unable to send right now. Please email acharyapurushottam177@gmail.com directly.'));
     });
   }
 })();
