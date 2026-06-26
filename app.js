@@ -97,10 +97,33 @@
   const submitBtn = document.getElementById('submit-btn');
   const formIframe = document.getElementById('w3f-iframe');
   const formRedirect = document.getElementById('form-redirect');
-  const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
   const SUCCESS_MSG = 'Woohoo! Your email is now napping next to my cat. I’ll wake it up and answer ASAP. 😺';
+  const SUBMIT_COOLDOWN_MS = 45000;
+  const SUBMIT_COOLDOWN_KEY = 'contactFormLastSubmit';
   let iframePending = false;
   let iframeTimeoutId = null;
+
+  function isSubmitOnCooldown() {
+    const last = Number(localStorage.getItem(SUBMIT_COOLDOWN_KEY) || 0);
+    return Date.now() - last < SUBMIT_COOLDOWN_MS;
+  }
+
+  function markFormSubmitted() {
+    localStorage.setItem(SUBMIT_COOLDOWN_KEY, String(Date.now()));
+  }
+
+  function syncReplyFields(name, email) {
+    const fromName = document.getElementById('form-from-name');
+    const replyto = document.getElementById('form-replyto');
+    if (fromName) fromName.value = String(name).trim();
+    if (replyto) replyto.value = String(email).trim();
+  }
+
+  function isHoneypotTripped(formData) {
+    const botcheck = String(formData.get('botcheck') || '').trim();
+    const website = String(formData.get('website') || '').trim();
+    return Boolean(botcheck || website);
+  }
 
   function resetSubmitButton() {
     submitBtn.disabled = false;
@@ -128,6 +151,7 @@
         formStatus.classList.remove('fade-out');
       }, 450);
     }, 3000);
+    markFormSubmitted();
     contactForm.reset();
     resetSubmitButton();
     setTimeout(() => formStatus?.focus?.(), 50);
@@ -168,6 +192,7 @@
   }
 
   window.addEventListener('message', (e) => {
+    if (e.origin !== window.location.origin) return;
     if (!iframePending || e.data?.type !== 'web3forms-success') return;
     showFormSuccess(SUCCESS_MSG);
   });
@@ -195,7 +220,7 @@
       const message = formData.get('message');
       const btnText = submitBtn?.querySelector('span');
 
-      if (formData.get('botcheck')) return;
+      if (isHoneypotTripped(formData)) return;
 
       if (!name || String(name).trim().length < 2) {
         showFormError('Please provide a valid name.');
@@ -231,6 +256,12 @@
         showFormError('Unable to send from this page. Please use your deployed portfolio URL.');
         return;
       }
+
+      if (isSubmitOnCooldown()) {
+        showFormError('Please wait a moment before sending another message.');
+        return;
+      }
+      syncReplyFields(name, email);
 
       // Native POST + redirect (Web3Forms does not apply redirect for fetch/AJAX).
       submitViaIframe();

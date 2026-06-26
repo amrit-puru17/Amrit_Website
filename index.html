@@ -6,15 +6,18 @@
   <title>Purushottam Acharya — Data Analyst</title>
   <meta name="description" content="Portfolio of Purushottam Acharya — Data Analyst specialising in Excel, SQL, Power BI, Python and business intelligence." />
   <meta name="theme-color" content="#fafaf8" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://unpkg.com; frame-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <meta name="color-scheme" content="light dark" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
 
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" type="module"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" type="module" crossorigin="anonymous" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer crossorigin="anonymous" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer crossorigin="anonymous" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE"></script>
 
 
   <link rel="stylesheet" href="styles.css?v=1.1" />
@@ -426,8 +429,11 @@
 
         <form class="contact-form fade-section delay-1" action="https://api.web3forms.com/submit" method="POST" aria-label="Contact form" novalidate data-contact-email="acharyapurushottam177@gmail.com">
           <input type="text" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <!-- Free key: https://web3forms.com → enter your email → paste access_key below -->
           <input type="hidden" name="access_key" id="web3forms-access-key" value="24d85b0f-a77d-4c12-993e-bcc41748289a" />
+          <input type="hidden" name="from_name" id="form-from-name" value="" />
+          <input type="hidden" name="replyto" id="form-replyto" value="" />
           <input type="hidden" name="subject" value="New portfolio message" />
           <input type="hidden" name="redirect" id="form-redirect" value="" />
           <div class="form-field">
@@ -468,7 +474,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=1.5" defer></script>
+  <script src="app.js?v=1.6" defer></script>
   <script src="animations.js" defer></script>
 
 </body>
