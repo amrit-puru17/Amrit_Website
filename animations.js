@@ -2,6 +2,21 @@
    ANIMATIONS.JS — subtle scroll reveals
    ═══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  const revealFallback = () => {
+    document.querySelectorAll(
+      '.fade-section, .hero-heading.reveal, .hero-sub.reveal, .hero-actions.reveal, .kpi-cluster.reveal'
+    ).forEach((el) => {
+      el.classList.add('visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  };
+
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    revealFallback();
+    return;
+  }
+
   gsap.registerPlugin(ScrollTrigger);
 
   // Hero heading / sub / actions reveal

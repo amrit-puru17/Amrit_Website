@@ -8,14 +8,15 @@
   <meta name="theme-color" content="#fafaf8" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://unpkg.com; frame-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com https://unpkg.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src 'self' https://api.web3forms.com; form-action https://api.web3forms.com; base-uri 'self'; object-src 'none'" />
 
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <meta name="color-scheme" content="light dark" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" crossorigin="anonymous" />
 
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" type="module" crossorigin="anonymous" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer crossorigin="anonymous" integrity="sha384-d+vyQ0dYcymoP8ndq2hW7FGC50nqGdXUEgoOUGxbbkAJwZqL7h+jKN0GGgn9hFDS"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer crossorigin="anonymous" integrity="sha384-poC0r6usQOX2Ayt/VGA+t81H6V3iN9L+Irz9iO8o+s0X20tLpzc9DOOtnKxhaQSE"></script>
 
@@ -235,7 +236,7 @@
         <div class="projects-grid">
           <article class="project-item fade-section" aria-label="SQL Data Extraction">
             <a href="https://github.com/amrit-puru17/SQL" target="_blank" rel="noopener noreferrer" class="project-img-link">
-              <img src="sqlll.png" alt="SQL database schema visualisation" loading="lazy" class="project-img" />
+              <img src="sqlll.png" alt="SQL database schema visualisation" loading="eager" decoding="async" class="project-img" />
             </a>
             <div class="project-text">
               <ul class="tag-list">
@@ -250,7 +251,7 @@
 
           <article class="project-item fade-section delay-1" aria-label="Job Market Dashboard">
             <a href="https://github.com/amrit-puru17/Power-BI---2" target="_blank" rel="noopener noreferrer" class="project-img-link">
-              <img src="powerBi.png" alt="Job market analytics dashboard" loading="lazy" class="project-img" />
+              <img src="powerBi.png" alt="Job market analytics dashboard" loading="eager" decoding="async" class="project-img" />
             </a>
             <div class="project-text">
               <ul class="tag-list">
@@ -265,7 +266,7 @@
 
           <article class="project-item fade-section delay-2" aria-label="Job Postings Analysis">
             <a href="https://github.com/amrit-puru17/Python_" target="_blank" rel="noopener noreferrer" class="project-img-link">
-              <img src="pythonn.png" alt="Python Pandas job postings trend" loading="lazy" class="project-img" />
+              <img src="pythonn.png" alt="Python Pandas job postings trend" loading="eager" decoding="async" class="project-img" />
             </a>
             <div class="project-text">
               <ul class="tag-list">
@@ -291,7 +292,7 @@
           <div class="projects-grid">
             <article class="project-item prop-item fade-section" aria-label="Ageing Analysis — confidential">
               <div class="project-img-link grayscale-wrap">
-                <img src="financial_ageing.png" alt="Accounts receivable ageing analysis" loading="lazy" class="project-img" />
+                <img src="financial_ageing.png" alt="Accounts receivable ageing analysis" loading="eager" decoding="async" class="project-img" />
                 <div class="prop-overlay" aria-hidden="true">
                   <span class="prop-badge"><i class="ph ph-lock"></i> Interview Only</span>
                 </div>
@@ -308,7 +309,7 @@
             </article>
             <article class="project-item prop-item fade-section delay-1" aria-label="Automated Sales Dashboard — confidential">
               <div class="project-img-link grayscale-wrap">
-                <img src="automated_sales_dashboard.png" alt="Automated sales intelligence dashboard" loading="lazy" class="project-img" />
+                <img src="automated_sales_dashboard.png" alt="Automated sales intelligence dashboard" loading="eager" decoding="async" class="project-img" />
                 <div class="prop-overlay" aria-hidden="true">
                   <span class="prop-badge prop-badge-accent"><i class="ph ph-lock"></i> Interview Only</span>
                 </div>
@@ -324,7 +325,7 @@
             </article>
             <article class="project-item prop-item fade-section delay-2" aria-label="Sales Tracking System — confidential">
               <div class="project-img-link grayscale-wrap">
-                <img src="sales-tracking-portfolio-realistic.png" alt="Sales tracking system for field representatives and admin KPIs" loading="lazy" class="project-img" />
+                <img src="sales-tracking-portfolio-realistic.png" alt="Sales tracking system for field representatives and admin KPIs" loading="eager" decoding="async" class="project-img" />
                 <div class="prop-overlay" aria-hidden="true">
                   <span class="prop-badge"><i class="ph ph-lock"></i> Interview Only</span>
                 </div>
@@ -435,7 +436,6 @@
           <input type="hidden" name="from_name" id="form-from-name" value="" />
           <input type="hidden" name="replyto" id="form-replyto" value="" />
           <input type="hidden" name="subject" value="New portfolio message" />
-          <input type="hidden" name="redirect" id="form-redirect" value="" />
           <div class="form-field">
             <input type="text" id="name" name="name" autocomplete="name" required placeholder="Purushottam Acharya" />
             <label for="name">Your Name</label>
@@ -454,7 +454,6 @@
             <i class="ph ph-paper-plane-tilt"></i>
           </button>
         </form>
-        <iframe name="w3f-iframe" id="w3f-iframe" title="Form submission" hidden></iframe>
       </div>
     </section>
   </main>
@@ -474,8 +473,8 @@
     </div>
   </footer>
 
-  <script src="app.js?v=1.6" defer></script>
-  <script src="animations.js" defer></script>
+  <script src="app.js?v=1.8" defer></script>
+  <script src="animations.js?v=1.1" defer></script>
 
 </body>
 </html>

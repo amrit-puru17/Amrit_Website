@@ -19,7 +19,7 @@ Code-side hardening is in `index.html`, `app.js`, and `thanks.js`. Complete thes
 
 ## GitHub Pages vs HTTP headers
 
-Plain **GitHub Pages** does not read `_headers` from the repo. Security policy for browsers is delivered via `<meta>` tags in `index.html` and `thanks.html`.
+Plain **GitHub Pages** does not read `_headers` from the repo. Security policy for browsers is delivered via `<meta>` tags in `index.html` and `thanks.html`. CSP must allow `https://unpkg.com` in `style-src` and `font-src` so Phosphor Icons can load its stylesheets and icon font.
 
 If you later put **Cloudflare** (or Netlify) in front of the site, you can serve real HTTP headers from `_headers` (see file in repo root) and optionally remove redundant meta CSP after testing.
 
